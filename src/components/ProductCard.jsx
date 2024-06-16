@@ -1,16 +1,10 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { GlobalContext } from "../context/globalContext";
 
 function ProductCard({ product }) {
-  const {
-    title,
-    id,
-    brand,
-    availabilityStatus,
-    description,
-    category,
-    price,
-    thumbnail,
-  } = product;
+  const { title, id, brand, availabilityStatus, category, price, thumbnail } =
+    product;
   return (
     <div className="card w-96 bg-base-100 shadow-xl menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box m-5">
       <figure>

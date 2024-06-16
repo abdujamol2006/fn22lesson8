@@ -2,12 +2,14 @@ import { Link } from "react-router-dom";
 import NavLinks from "./NavLinks";
 import { IoSunnySharp, IoMoonSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
-import { SlBasket } from "react-icons/sl";
+import { FaCartShopping } from "react-icons/fa6";
 import { BiLogoRedux } from "react-icons/bi";
 function themeFromLocalStorage() {
   return localStorage.getItem("theme") || "winter";
 }
+import { useGlobalContext } from "../hooks/useGlobalContext";
 function header() {
+  const { total } = useGlobalContext();
   const [theme, setTheme] = useState(themeFromLocalStorage());
   const handleTheme = () => {
     const newTheme = theme == "winter" ? "dracula" : "winter";
@@ -24,18 +26,23 @@ function header() {
           <Link to="/">
             <BiLogoRedux className="w-100" />
           </Link>
-        </div>{" "}
+        </div>
         <nav className="navbar-center">
           <ul className="menu menu-horizontal">
             <NavLinks />
           </ul>
         </nav>
-        <div className="korzinka">
-          <Link to="/korzinka">
-            <SlBasket />
-          </Link>
-        </div>
-        <div className="navbar-end">
+
+        <div className="navbar-end flex gap-10 items-center">
+          <div className="indicator">
+            <span className="indicator-item badge badge-md badge-secondary">
+              {total}
+            </span>
+            <Link to="/korzinka">
+              <FaCartShopping className="w-7 h-7" />
+            </Link>
+          </div>
+
           <label className="swap swap-rotate">
             {/* this hidden checkbox controls the state */}
             <input

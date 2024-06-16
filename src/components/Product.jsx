@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useFetch } from "../hooks/useFetch";
+
 function Product() {
   const { id } = useParams();
   const { data, setData, error } = useFetch(
@@ -24,7 +25,12 @@ function Product() {
               <p>Stock: {data.stock}</p>
               <p>Tags: {data.tags}</p>
               <p>Brand: {data.brand}</p>
-            </div>
+              <div className="flex items-center gap-4 mb-10">
+                <button className="btn btn-secondary">-</button>
+                <div>0</div>
+                <button className="btn btn-secondary">+</button>
+              </div>
+            </div>{" "}
           </div>
         </div>
       )}

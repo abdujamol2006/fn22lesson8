@@ -1,32 +1,51 @@
-import { useEffect, useState } from "react";
-
+import { useEffect, useReducer, useState } from "react";
+const changeState = (state, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "IS_PENDING":
+      return { ...state, isPending: payload };
+    case "SET_DATA":
+      return { ...state, data: payload };
+    case "SET_ERROR":
+      return { ...state, error: payload };
+    default:
+      return state;
+  }
+};
 function useFetch(url) {
   const [data, setData] = useState(null);
-  const [isPending, setIsPending] = useState(null);
+  const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
+
+  const [state, dispatch] = useReducer(changeState, {
+    data: null,
+    isPending: false,
+    error: null,
+  });
 
   useEffect(() => {
     const getData = async () => {
-      setIsPending(true);
+      dispatch({ type: "IS_PENDING", payload: true });
       try {
         const request = await fetch(url);
         if (!request.ok) {
           throw new Error("Something went wrong :(");
         }
         const response = await request.json();
-        setData(response);
-        setIsPending(false);
+        dispatch({ type: "SET_DATA", payload: response });
+        dispatch({ type: "IS_PENDING", payload: false });
+        dispatch({ type: "SET_ERROR", payload: null });
         setError(null);
       } catch (err) {
         console.log(err.message);
-        setIsPending(false);
-        setError(err.message);
+        dispatch({ type: "IS_PENDING", payload: false });
+        dispatch({ type: "SET_ERROR", payload: err.message });
       }
     };
     getData();
   }, [url]);
 
-  return { data, isPending, error };
+  return { ...state };
 }
 
 export { useFetch };
