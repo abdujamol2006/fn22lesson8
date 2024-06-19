@@ -1,5 +1,6 @@
 import { auth } from "../firebase/firebaseConfig";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+
 function useRegister() {
   const registerWithEmailAndPassword = async (userData) => {
     try {
@@ -8,9 +9,20 @@ function useRegister() {
         userData.email,
         userData.password
       );
+
+      await updateProfile(auth.currentUser, {
+        displayName: userData.displayName,
+        photoURL: userData.photoURL,
+      });
       const userCredential = result.user;
+
+      //dispatch({ type: "SIGN_IN", payload: userCredential });
+
       console.log(userCredential);
-    } catch {}
+    } catch (error) {
+      const errorMessage = error.message;
+      console.log(errorMessage);
+    }
   };
   return { registerWithEmailAndPassword };
 }

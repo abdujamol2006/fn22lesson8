@@ -1,6 +1,6 @@
 import FormInput from "../components/FormInput";
 import { useLogin } from "../hooks/useLogin";
-import { Form, useActionData } from "react-router-dom";
+import { Form, NavLink, useActionData } from "react-router-dom";
 import { useRegister } from "../hooks/useRegister";
 import { useEffect } from "react";
 export const action = async ({ request }) => {
@@ -8,7 +8,8 @@ export const action = async ({ request }) => {
   let displayName = formData.get("displayName");
   let email = formData.get("email");
   let password = formData.get("password");
-  return { displayName, email, password };
+  let photoURL = formData.get("photoURL");
+  return { displayName, email, password, photoURL };
 };
 function Register() {
   const userData = useActionData();
@@ -26,18 +27,22 @@ function Register() {
         <h1 className="text-3xl font-bold text-center mb-4">Register</h1>
         <FormInput type="text" labelText="Display Name:" name="displayName" />
         <FormInput type="email" labelText="Email:" name="email" />
+        <FormInput type="url" labelText="Photo URL:" name="photoURL" />
         <FormInput type="password" labelText="Password:" name="password" />
         <div className="mt-6">
-          <button type="submit" className=" btn btn-secondary btn-block">
-            Register
-          </button>
-          <button
-            onClick={signUpWithGoogle}
-            className="btn btn-primary mt-3 btn-block"
-          >
-            Google
-          </button>
+          <button className=" btn btn-secondary btn-block">Register</button>
         </div>
+        <button
+          type="button"
+          onClick={signUpWithGoogle}
+          className="btn btn-primary mt-3 btn-block"
+        >
+          Google
+        </button>
+        <p>
+          You have already registered.
+          <NavLink to="./login">Click me!</NavLink>
+        </p>
       </Form>
     </div>
   );
