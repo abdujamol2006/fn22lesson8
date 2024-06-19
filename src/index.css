@@ -67,3 +67,8 @@ a {
 .logo {
   color: aqua;
 }
+@media (min-width: 420) {
+  .card {
+    width: 60px;
+  }
+}

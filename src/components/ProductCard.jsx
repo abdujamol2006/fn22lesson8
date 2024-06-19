@@ -6,7 +6,7 @@ function ProductCard({ product }) {
   const { title, id, brand, availabilityStatus, category, price, thumbnail } =
     product;
   return (
-    <div className="card w-96 bg-base-100 shadow-xl menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box m-5">
+    <div className="card w-96 bg-base-100 shadow-xl menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box m-5 ">
       <figure>
         <img src={thumbnail} alt="Shoes" />
       </figure>

@@ -8,12 +8,24 @@ function themeFromLocalStorage() {
   return localStorage.getItem("theme") || "winter";
 }
 import { useGlobalContext } from "../hooks/useGlobalContext";
+
+import { auth } from "../firebase/firebaseConfig";
+import { signOut } from "firebase/auth";
 function header() {
-  const { total } = useGlobalContext();
+  const { total, user } = useGlobalContext();
   const [theme, setTheme] = useState(themeFromLocalStorage());
   const handleTheme = () => {
     const newTheme = theme == "winter" ? "dracula" : "winter";
     setTheme(newTheme);
+  };
+  const logout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+      })
+      .catch((error) => {
+        // An error happened.
+      });
   };
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -57,6 +69,17 @@ function header() {
             {/* moon icon */}
             <IoMoonSharp className="swap-off fill-current w-10 h-10" />
           </label>
+          <div className="flex  gap-4 items-center">
+            <p className="">{user.displayName}</p>
+            <div className="avatar">
+              <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                <img src={user.photoURL} />
+              </div>
+            </div>
+          </div>
+          <button onClick={logout} className="btn btn-primary">
+            Log out
+          </button>
         </div>
       </div>
     </div>
